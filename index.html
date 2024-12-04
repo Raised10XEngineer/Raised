@@ -35,11 +35,17 @@
       <thead>
         <tr>
           <th>Candidates</th>
+          <th>LinkedIn</th>
+          <th>Candidate Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="candidate in candidates" :key="candidate.id" class="candidate-row">
           <td>{{ candidate.name }}</td>
+          <td>
+            <a :href="candidate.linkedin" target="_blank">LinkedIn</a>
+          </td>
+          <td>{{ candidate.status }}</td>
         </tr>
       </tbody>
     </table>
@@ -67,10 +73,12 @@
               },
             });
 
-            // Парсим только имена
+            // Парсим данные из Airtable
             this.candidates = response.data.records.map((record) => ({
               id: record.id,
               name: record.fields["Full Name"]?.[0] || "Unknown Name",
+              linkedin: record.fields["LinkedIn"]?.[0] || "#",
+              status: record.fields["Candidate Status (Recruiting)"]?.[0] || "No Status",
             }));
 
             console.log("Candidates loaded:", this.candidates);
