@@ -37,6 +37,8 @@
           <th>Candidates</th>
           <th>LinkedIn</th>
           <th>Candidate Status</th>
+          <th>Summary</th>
+          <th>CV</th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +48,10 @@
             <a :href="candidate.linkedin" target="_blank">LinkedIn</a>
           </td>
           <td>{{ candidate.status }}</td>
+          <td>{{ candidate.summary }}</td>
+          <td>
+            <a :href="candidate.cvLink" target="_blank">Download CV</a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -79,6 +85,8 @@
               name: record.fields["Full Name"]?.[0] || "Unknown Name",
               linkedin: record.fields["LinkedIn"]?.[0] || "#",
               status: record.fields["Candidate Status (Recruiting)"]?.[0] || "No Status",
+              summary: record.fields["Summary"] || "No Summary", // Добавили поле Summary
+              cvLink: record.fields["Attach CV and other files"]?.[0] || "#", // Ссылка на CV
             }));
 
             console.log("Candidates loaded:", this.candidates);
