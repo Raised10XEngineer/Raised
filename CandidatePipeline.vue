@@ -90,17 +90,18 @@ export default {
           }
         );
         // Парсим данные из Airtable
-        this.candidates = response.data.records.map((record) => ({
+this.candidates = response.data.records.map((record) => ({
   id: record.id,
-  name: Array.isArray(record.fields["Full Name"]) ? record.fields["Full Name"][0] : record.fields["Full Name"], // Извлекаем первую запись из массива
-  linkedin: Array.isArray(record.fields["LinkedIn"]) ? record.fields["LinkedIn"][0] : record.fields["LinkedIn"], // Проверяем, если это массив
-  cvLink: Array.isArray(record.fields["Attach CV and other files"]) ? record.fields["Attach CV and other files"][0] : record.fields["Attach CV and other files"],
+  name: record.fields["Full Name"]?.[0] || "", // Безопасно извлекаем первый элемент
+  linkedin: record.fields["LinkedIn"]?.[0] || "",
+  cvLink: record.fields["Attach CV and other files"]?.[0] || "",
   cvName: "Download CV",
-  status: Array.isArray(record.fields["Candidate Status (Recruiting)"]) ? record.fields["Candidate Status (Recruiting)"][0] : record.fields["Candidate Status (Recruiting)"],
-  summary: Array.isArray(record.fields["Summary"]) ? record.fields["Summary"][0] : record.fields["Summary"],
-  scoring: Array.isArray(record.fields["Scoring based on criteria"]) ? record.fields["Scoring based on criteria"][0] : record.fields["Scoring based on criteria"],
-  avatar: record.fields["Avatar"]?.[0]?.url || "https://via.placeholder.com/150", // Извлекаем первую запись, если это массив
+  status: record.fields["Candidate Status (Recruiting)"]?.[0] || "",
+  summary: record.fields["Summary"]?.[0] || "",
+  scoring: record.fields["Scoring based on criteria"]?.[0] || "",
+  avatar: record.fields["Avatar"]?.[0]?.url || "https://via.placeholder.com/150",
 }));
+
 
       } catch (error) {
         console.error("Ошибка загрузки данных из Airtable:", error);
